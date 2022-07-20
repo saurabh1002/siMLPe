@@ -1,0 +1,8 @@
+runs/
+log/
+data/
+archives/
+*.npy
+*.npz
+__pycache__/
+.vscode
