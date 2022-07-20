@@ -7,7 +7,7 @@ def ang2joint(p3d0, pose,
 
     :param p3d0:[batch_size, joint_num, 3]
     :param pose:[batch_size, joint_num, 3]
-    :param parent:
+    :param parent:{joint_num: parent_id}
     :return:
     """
     batch_num = p3d0.shape[0]
