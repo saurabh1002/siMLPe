@@ -6,3 +6,6 @@ archives/
 *.npz
 __pycache__/
 .vscode
+output/
+.cache/
+.replik_paths.json

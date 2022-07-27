@@ -1,0 +1,11 @@
+{
+    "cpu": 1,
+    "docker_shm": "64g",
+    "gpus": 0,
+    "memory": 3,
+    "name": "simlpe",
+    "rp_version": "0.0.2",
+    "stdout_to_file": false,
+    "tag": "saurabh_gupta/rp_simlpe",
+    "username": "saurabh_gupta"
+}
