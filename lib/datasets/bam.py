@@ -35,11 +35,11 @@ class BAMDataset(data.Dataset):
         seq_names = []
         if self._split_name == 'train' :
             seq_names += np.loadtxt(
-                os.path.join(self._bam_anno_dir.replace('bam', ''), "bam_train.txt"), dtype=str
+                os.path.join(self._bam_anno_dir.replace('bam', ''), "bam_train.txt"), dtype=str, ndmin=1
                 ).tolist()
         else :
             seq_names += np.loadtxt(
-                os.path.join(self._bam_anno_dir.replace('bam', ''), "bam_test.txt"), dtype=str
+                os.path.join(self._bam_anno_dir.replace('bam', ''), "bam_test.txt"), dtype=str, ndmin=1
                 ).tolist()
 
         file_list = []
