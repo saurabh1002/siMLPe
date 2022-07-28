@@ -20,7 +20,7 @@ C.seed = 888
 """please config ROOT_dir and user when u first using"""
 C.abs_dir = osp.dirname(osp.realpath(__file__))
 C.this_dir = C.abs_dir.split(osp.sep)[-1]
-C.repo_name = 'siMLPe'
+C.repo_name = 'simlpe'
 C.root_dir = C.abs_dir[:C.abs_dir.index(C.repo_name) + len(C.repo_name)]
 
 
@@ -44,7 +44,7 @@ add_path(osp.join(C.root_dir, 'lib'))
 # TODO
 
 """Dataset Config"""
-C.bam_anno_dir = osp.join(C.root_dir, 'data/bam/')
+C.bam_anno_dir = osp.join(C.root_dir, '../BAMp/')
 C.motion = edict()
 
 C.motion.bam_input_length = 50

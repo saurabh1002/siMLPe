@@ -1,7 +1,7 @@
 {
     "cpu": 1,
     "docker_shm": "64g",
-    "gpus": 0,
+    "gpus": 1,
     "memory": 3,
     "name": "simlpe",
     "rp_version": "0.0.2",
