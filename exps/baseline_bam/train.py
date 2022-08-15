@@ -1,11 +1,10 @@
-import argparse
-import os, sys
 import json
 import numpy as np
 
 from config import config
 from model import siMLPe as Model
 from datasets.bam import BAMDataset
+from utils.misc import get_dct_matrix
 from utils.logger import get_logger, print_and_log_info
 from utils.pyt_utils import link_file, ensure_dir
 
@@ -15,17 +14,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 torch.manual_seed(config.seed)
 writer = SummaryWriter()
-
-def get_dct_matrix(N):
-    dct_m = np.eye(N)
-    for i in np.arange(N):
-        for j in np.arange(N):
-            w = np.sqrt(2 / N)
-            if i == 0:
-                w = np.sqrt(1 / N)
-            dct_m[i, j] = w * np.cos(np.pi * (j + 1 / 2) * i / N)
-    idct_m = np.linalg.inv(dct_m)
-    return dct_m, idct_m
 
 dct_m, idct_m = get_dct_matrix(config.motion.bam_input_length_dct)
 dct_m = torch.tensor(dct_m).float().cuda().unsqueeze(0)
@@ -62,15 +50,15 @@ def train_step(bam_motion_input, bam_motion_target, model, optimizer, nb_iter, t
         offset = bam_motion_input[:, -1:].cuda()
         motion_pred = motion_pred[:, :config.motion.bam_target_length] + offset
 
-    b,n,c = bam_motion_target.shape
-    motion_pred = motion_pred.reshape(b, n, 18, 3).reshape(-1, 3)
-    bam_motion_target = bam_motion_target.cuda().reshape(b, n, 18, 3).reshape(-1, 3)
+    b, n, c = bam_motion_target.shape
+    motion_pred = motion_pred.reshape(b, n, 17, 3).reshape(-1, 3)
+    bam_motion_target = bam_motion_target.cuda().reshape(b, n, 17, 3).reshape(-1, 3)
     loss = torch.mean(torch.norm(motion_pred - bam_motion_target, 2, 1))
 
     if config.use_relative_loss:
-        motion_pred = motion_pred.reshape(b,n,18,3)
+        motion_pred = motion_pred.reshape(b, n, 17, 3)
         dmotion_pred = gen_velocity(motion_pred)
-        motion_gt = bam_motion_target.reshape(b,n,18,3)
+        motion_gt = bam_motion_target.reshape(b, n, 17, 3)
         dmotion_gt = gen_velocity(motion_gt)
         dloss = torch.mean(torch.norm((dmotion_pred - dmotion_gt).reshape(-1, 3), 2, 1))
         loss = loss + dloss

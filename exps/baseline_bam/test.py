@@ -1,28 +1,16 @@
 import argparse
-import os, sys
 from scipy.spatial.transform import Rotation as R
 
 import numpy as np
-from sklearn import model_selection
 from tqdm import tqdm
 from config  import config
 from model import siMLPe as Model
+from utils.misc import get_dct_matrix
 from utils.misc import rotmat2xyz_torch, rotmat2euler_torch
 from datasets.bam import BAMDataset
 
 import torch
 from torch.utils.data import DataLoader
-
-def get_dct_matrix(N):
-    dct_m = np.eye(N)
-    for i in np.arange(N):
-        for j in np.arange(N):
-            w = np.sqrt(2 / N)
-            if i == 0:
-                w = np.sqrt(1 / N)
-            dct_m[i, j] = w * np.cos(np.pi * (j + 1 / 2) * i / N)
-    idct_m = np.linalg.inv(dct_m)
-    return dct_m, idct_m
 
 dct_m,idct_m = get_dct_matrix(config.motion.bam_input_length)
 dct_m = torch.tensor(dct_m).float().cuda().unsqueeze(0)
@@ -37,8 +25,8 @@ def regress_pred(pbar, num_samples, m_p3d_h36):
         b, t, c = motion_target.shape
         num_samples += b
 
-        motion_input = motion_input.reshape(b, n, 18, 3)
-        motion_target = motion_target.reshape(b, t, 18, 3)
+        motion_input = motion_input.reshape(b, n, 17, 3)
+        motion_target = motion_target.reshape(b, t, 17, 3)
         motion_gt_.append(np.concatenate((motion_input.cpu().detach().numpy(), motion_target.cpu().detach().numpy()), 1))
         motion_input = motion_input.reshape(b, n, -1)
         motion_target = motion_target.reshape(b, t, -1)
@@ -61,20 +49,20 @@ def regress_pred(pbar, num_samples, m_p3d_h36):
                 if config.deriv_output:
                     output = output + motion_input[:, -1:, :].repeat(1, step, 1)
 
-            output = output.reshape(-1, 18*3)
+            output = output.reshape(-1, 17*3)
             output = output.reshape(b, step, -1)
             outputs.append(output)
             # motion_input = torch.cat([motion_input[:, step:], output], axis=1)
 
         motion_pred = torch.cat(outputs, axis=1)[:, :25]
 
-        motion_target = motion_target.detach().reshape(b, t, 18, 3)
+        motion_target = motion_target.detach().reshape(b, t, 17, 3)
         motion_gt = motion_target.clone()
 
         motion_pred = motion_pred.detach().cpu()
-        motion_pred = motion_pred.reshape(b, t, 18, 3)
+        motion_pred = motion_pred.reshape(b, t, 17, 3)
 
-        motion.append(np.concatenate((motion_input.reshape(b, n, 18, 3).cpu().detach().numpy(), motion_pred.numpy()), 1))
+        motion.append(np.concatenate((motion_input.reshape(b, n, 17, 3).cpu().detach().numpy(), motion_pred.numpy()), 1))
 
         mpjpe_p3d_h36 = torch.sum(torch.mean(torch.norm(motion_pred - motion_gt, dim=3), dim=2), dim=0)
         m_p3d_h36 += mpjpe_p3d_h36.cpu().numpy()

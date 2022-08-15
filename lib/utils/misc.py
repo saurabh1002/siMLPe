@@ -1,10 +1,18 @@
 import numpy as np
 import torch
-from torch.autograd.variable import Variable
 
-from six.moves import xrange
 import torch
-import os
+
+def get_dct_matrix(N):
+    dct_m = np.eye(N)
+    for i in np.arange(N):
+        for j in np.arange(N):
+            w = np.sqrt(2 / N)
+            if i == 0:
+                w = np.sqrt(1 / N)
+            dct_m[i, j] = w * np.cos(np.pi * (j + 1 / 2) * i / N)
+    idct_m = np.linalg.inv(dct_m)
+    return dct_m, idct_m
 
 def _some_variables_cmu():
     """
