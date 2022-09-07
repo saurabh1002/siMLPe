@@ -79,7 +79,7 @@ def train_step(bam_motion_input, bam_motion_target, model, optimizer, nb_iter, t
 model = Model(config)
 model.train()
 model.cuda()
-
+print(">>> total params: {:.2f}M".format(sum(p.numel() for p in model.parameters()) / 1000000.0))
 config.motion.bam_target_length = config.motion.bam_target_length_train
 dataset = BAMDataset(config, 'train', config.data_aug)
 
