@@ -51,7 +51,7 @@ C.motion.bam_input_length = 50
 C.motion.bam_input_length_dct = 50
 C.motion.bam_target_length_train = 25
 C.motion.bam_target_length_eval = 25
-C.motion.dim = 54
+C.motion.dim = 51
 
 C.data_aug = True
 C.deriv_input = True
