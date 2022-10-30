@@ -1,11 +1,11 @@
 {
-    "cpu": 1,
+    "cpu": 8,
     "docker_shm": "64g",
     "gpus": 1,
-    "memory": 3,
+    "memory": 32,
     "name": "simlpe",
     "rp_version": "0.0.2",
     "stdout_to_file": false,
-    "tag": "saurabh_gupta/rp_simlpe",
+    "tag": "saurabh_gupta/rp_simlpe_cvpr23",
     "username": "saurabh_gupta"
 }

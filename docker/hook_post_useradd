@@ -2,4 +2,3 @@
 RUN echo "after-user hook"
 
 WORKDIR /home/user/simlpe
-RUN conda init

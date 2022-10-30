@@ -16,7 +16,7 @@ class BAMDataset(data.Dataset):
 
         self._bam_anno_dir = config.bam_anno_dir
 
-        self._bam_file_names = self._get_bam_names()
+        self._bam_file_names = self._get_bam_names(config)
         self.bam_motion_input_length =  config.motion.bam_input_length
         self.bam_motion_target_length =  config.motion.bam_target_length
 
@@ -30,18 +30,14 @@ class BAMDataset(data.Dataset):
             return self._file_length
         return len(self._all_bam_motion_poses)
 
-    def _get_bam_names(self):
+    def _get_bam_names(self, config):
         # create list
         seq_names = []
         if self._split_name == 'train' :
-            seq_names += np.loadtxt(
-                os.path.join(self._bam_anno_dir.replace('bam', ''), "bam_train.txt"), dtype=str, ndmin=1
-                ).tolist()
+            seq_names = config.train_data
         else :
-            seq_names += np.loadtxt(
-                os.path.join(self._bam_anno_dir.replace('bam', ''), "bam_test.txt"), dtype=str, ndmin=1
-                ).tolist()
-
+            seq_names = config.eval_data
+        
         file_list = []
         for dataset in seq_names:
             files = glob.glob(self._bam_anno_dir + dataset + '/poses_pid*.npy')

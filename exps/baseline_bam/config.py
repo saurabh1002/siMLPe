@@ -24,8 +24,8 @@ C.repo_name = 'simlpe'
 C.root_dir = C.abs_dir[:C.abs_dir.index(C.repo_name) + len(C.repo_name)]
 
 
-C.log_dir = osp.abspath(osp.join(C.abs_dir, 'log'))
-C.snapshot_dir = osp.abspath(osp.join(C.log_dir, "snapshot"))
+C.log_dir = osp.abspath(osp.join(C.abs_dir, 'log-BCD'))
+C.snapshot_dir = osp.abspath(osp.join(C.log_dir, "snapshot-BCD"))
 
 
 exp_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())
@@ -44,7 +44,7 @@ add_path(osp.join(C.root_dir, 'lib'))
 # TODO
 
 """Dataset Config"""
-C.bam_anno_dir = osp.join(C.root_dir, '../BAMp/')
+C.bam_anno_dir = "/home/user/BAMp"
 C.motion = edict()
 
 C.motion.bam_input_length = 50
@@ -106,6 +106,9 @@ C.shift_step = 5
 """Display Config"""
 C.print_every = 100
 C.save_every = 5000
+
+C.train_data = ['/0_1_0/B', '/0_1_0/C', '/0_1_0/D']
+C.eval_data = ['/0_1_0/A']
 
 
 if __name__ == '__main__':

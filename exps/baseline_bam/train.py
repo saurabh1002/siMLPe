@@ -94,7 +94,6 @@ model.cuda()
 
 config.motion.bam_target_length = config.motion.bam_target_length_train
 dataset = BAMDataset(config, 'train', config.data_aug)
-
 shuffle = True
 sampler = None
 train_sampler = None
