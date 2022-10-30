@@ -63,14 +63,14 @@ def train_step(bam_motion_input, bam_motion_target, model, optimizer, nb_iter, t
         motion_pred = motion_pred[:, :config.motion.bam_target_length] + offset
 
     b,n,c = bam_motion_target.shape
-    motion_pred = motion_pred.reshape(b, n, 18, 3).reshape(-1, 3)
-    bam_motion_target = bam_motion_target.cuda().reshape(b, n, 18, 3).reshape(-1, 3)
+    motion_pred = motion_pred.reshape(b, n, 17, 3).reshape(-1, 3)
+    bam_motion_target = bam_motion_target.cuda().reshape(b, n, 17, 3).reshape(-1, 3)
     loss = torch.mean(torch.norm(motion_pred - bam_motion_target, 2, 1))
 
     if config.use_relative_loss:
-        motion_pred = motion_pred.reshape(b,n,18,3)
+        motion_pred = motion_pred.reshape(b,n,17,3)
         dmotion_pred = gen_velocity(motion_pred)
-        motion_gt = bam_motion_target.reshape(b,n,18,3)
+        motion_gt = bam_motion_target.reshape(b,n,17,3)
         dmotion_gt = gen_velocity(motion_gt)
         dloss = torch.mean(torch.norm((dmotion_pred - dmotion_gt).reshape(-1, 3), 2, 1))
         loss = loss + dloss

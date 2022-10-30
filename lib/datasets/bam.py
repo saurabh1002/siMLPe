@@ -66,6 +66,7 @@ class BAMDataset(data.Dataset):
         all_bam_motion_poses = []
         for bam_motion_name in tqdm(self._bam_file_names):
             bam_motion_poses = unknown_pose_shape_to_known_shape(np.load(bam_motion_name)) # (N x 18 x 3)
+            bam_motion_poses = bam_motion_poses[:, :17]
             N = len(bam_motion_poses)
             if N < self.bam_motion_target_length + self.bam_motion_input_length:
                 continue
