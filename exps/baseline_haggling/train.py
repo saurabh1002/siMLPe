@@ -5,7 +5,7 @@ import numpy as np
 
 from config import config
 from model import siMLPe as Model
-from datasets.bam import BAMDataset
+from datasets.bam import HagglingDataset
 from utils.logger import get_logger, print_and_log_info
 from utils.pyt_utils import link_file, ensure_dir
 

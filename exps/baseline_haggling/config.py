@@ -24,8 +24,8 @@ C.repo_name = 'simlpe'
 C.root_dir = C.abs_dir[:C.abs_dir.index(C.repo_name) + len(C.repo_name)]
 
 
-C.log_dir = osp.abspath(osp.join(C.abs_dir, 'log-BCD'))
-C.snapshot_dir = osp.abspath(osp.join(C.log_dir, "snapshot-BCD"))
+C.log_dir = osp.abspath(osp.join(C.abs_dir, 'log-haggling'))
+C.snapshot_dir = osp.abspath(osp.join(C.log_dir, "snapshot-haggling"))
 
 
 exp_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())
@@ -44,14 +44,13 @@ add_path(osp.join(C.root_dir, 'lib'))
 # TODO
 
 """Dataset Config"""
-C.bam_anno_dir = "/home/user/BAMp"
 C.motion = edict()
 
-C.motion.bam_input_length = 50
-C.motion.bam_input_length_dct = 50
-C.motion.bam_target_length_train = 25
-C.motion.bam_target_length_eval = 25
-C.motion.dim = 51
+C.motion.input_length = 50
+C.motion.input_length_dct = 50
+C.motion.target_length_train = 25
+C.motion.target_length_eval = 25
+C.motion.dim = 57
 
 C.data_aug = True
 C.deriv_input = True
@@ -66,7 +65,7 @@ C.post_dct = False
 dim_ = C.motion.dim
 C.motion_mlp = edict()
 C.motion_mlp.hidden_dim = dim_
-C.motion_mlp.seq_len = C.motion.bam_input_length_dct
+C.motion_mlp.seq_len = C.motion.input_length_dct
 C.motion_mlp.num_layers = 48
 C.motion_mlp.with_normalization = True
 C.motion_mlp.spatial_fc_only = False
@@ -106,10 +105,6 @@ C.shift_step = 5
 """Display Config"""
 C.print_every = 100
 C.save_every = 5000
-
-C.train_data = ['/0_1_0/B', '/0_1_0/C', '/0_1_0/D']
-C.eval_data = ['/0_1_0/A']
-
 
 if __name__ == '__main__':
     print(config.decoder.motion_mlp)
