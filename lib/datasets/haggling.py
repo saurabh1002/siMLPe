@@ -43,11 +43,6 @@ class HagglingDataset(data.Dataset):
             N = len(poses_3person)
             if N < req_len_seq:
                 continue
-            
-            frame_rate = self.frame_rate
-            sample_rate = int(frame_rate // 25)
-            sampled_index = np.arange(0, N, sample_rate)
-            poses_3person = poses_3person[sampled_index]
 
             if (len(sampled_index) > req_len_seq):
                 ids = np.arange(0, len(sampled_index) - req_len_seq, req_len_seq)
