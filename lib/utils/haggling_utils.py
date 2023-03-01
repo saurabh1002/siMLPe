@@ -1,52 +1,9 @@
 import numpy as np
 import numpy.linalg as la
 
-def unknown_pose_shape_to_known_shape(seq):
+def normalize(seq, frame: int, jid_left=6, jid_right=12, return_transform=False):
     """
-    Sometimes we don't know what the pose is shaped like:
-    We could get either a single pose: (18*3) OR (18x3) OR (17*3) OR (17x3)
-    OR it could be a sequence: (nx18*3) OR (nx18x3) OR (nx17*3) OR (nx17x3)
-
-    This function takes any of those pose(s) and transforms
-    into (nx18x3) OR (nx17x3)
-    """
-    if isinstance(seq, list):
-        seq = np.array(seq, dtype=np.float32)
-    if len(seq.shape) == 1:
-        # has to be dimension 18*3 or 17*3
-        if seq.shape[0] == 18 * 3:
-            seq = seq.reshape(1, 18, 3)
-        else:
-            seq = seq.reshape(1, 17, 3)
-    elif len(seq.shape) == 2:
-        if seq.shape[0] == 18:
-            if seq.shape[1] != 3:
-                raise ValueError("(1) Incorrect shape:" + str(seq.shape))
-            seq = seq.reshape(1, 18, 3)
-        elif seq.shape[0] == 17:
-            if seq.shape[1] != 3:
-                raise ValueError("(1) Incorrect shape:" + str(seq.shape))
-            seq = seq.reshape(1, 17, 3)
-        else:
-            if seq.shape[1] != 18 * 3 and seq.shape[1] != 17 * 3:
-                raise ValueError("(2) Incorrect shape:" + str(seq.shape))
-            n = len(seq)
-
-            if seq.shape[1] == 18 * 3:
-                seq = seq.reshape(n, 18, 3)
-            else:
-                seq = seq.reshape(n, 17, 3)
-    else:
-        if len(seq.shape) != 3:
-            raise ValueError("(3) Incorrect shape:" + str(seq.shape))
-        if (seq.shape[1] != 18 and seq.shape[1] != 17) or seq.shape[2] != 3:
-            raise ValueError("(4) Incorrect shape:" + str(seq.shape))
-    return seq
-
-
-def normalize(seq, frame: int, jid_left=13, jid_right=14, return_transform=False):
-    """
-    :param seq: {n_frames x 18 x 3}
+    :param seq: {n_frames x 19 x 3}
     :param frame:
     """
     #  0  1  2  3  4
@@ -70,7 +27,7 @@ def normalize(seq, frame: int, jid_left=13, jid_right=14, return_transform=False
 
 def undo_normalization_to_seq(seq, mu, R):
     """
-    :param seq: {n_frames x 18 x 3}
+    :param seq: {n_frames x 19 x 3}
     :param mu: {3}
     :param R: {3x3}
     """
@@ -84,7 +41,7 @@ def undo_normalization_to_seq(seq, mu, R):
 
 def apply_normalization_to_seq(seq, mu, R):
     """
-    :param seq: {n_frames x 18 x 3}
+    :param seq: {n_frames x 19 x 3}
     :param mu: {3}
     :param R: {3x3}
     """

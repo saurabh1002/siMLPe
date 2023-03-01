@@ -72,7 +72,7 @@ class BAMDataset(data.Dataset):
                 continue
             
             frame_rate = self.frame_rate
-            sample_rate = int(frame_rate // 25)
+            sample_rate = int(frame_rate // 30)
             sampled_index = np.arange(0, N, sample_rate)
             bam_motion_poses = bam_motion_poses[sampled_index]
 

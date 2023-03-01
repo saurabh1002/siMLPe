@@ -88,7 +88,7 @@ C.motion_fc_out.init_w_trunc_normal = True
 C.motion_fc_out.temporal_fc = False
 
 """Train Config"""
-C.frame_rate = 25
+C.frame_rate = 30
 C.batch_size = 256
 C.num_workers = 8
 

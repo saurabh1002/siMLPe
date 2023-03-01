@@ -104,9 +104,12 @@ dependencies:
   - zlib=1.2.12=h7f8727e_2
   - zstd=1.5.2=ha4553b6_0
   - pip:
-    - tqdm
+    - tqdm==4.64.1
+    - opencv_python==4.7.0.68
+    - numba==0.56.4
+    - scipy==1.10.0
     - easydict==1.9
-    - einops==0.4.1
+    - einops==0.6.0
     - google-auth==1.35.0
     - pyyaml==6.0
     - torch-tb-profiler==0.4.0
