@@ -44,12 +44,11 @@ class HagglingDataset(data.Dataset):
             if N < req_len_seq:
                 continue
 
-            if (len(sampled_index) > req_len_seq):
-                ids = np.arange(0, len(sampled_index) - req_len_seq, req_len_seq)
-                for i in ids:
-                    all_motion_poses.append(poses_3person[i:i+req_len_seq, 0])
-                    all_motion_poses.append(poses_3person[i:i+req_len_seq, 1])
-                    all_motion_poses.append(poses_3person[i:i+req_len_seq, 2])
+            ids = np.arange(0, N - req_len_seq, req_len_seq)
+            for i in ids:
+                all_motion_poses.append(poses_3person[i:i+req_len_seq, 0])
+                all_motion_poses.append(poses_3person[i:i+req_len_seq, 1])
+                all_motion_poses.append(poses_3person[i:i+req_len_seq, 2])
         
         return all_motion_poses
 
