@@ -31,7 +31,6 @@ def undo_normalization_to_seq(seq, mu, R):
     :param mu: {3}
     :param R: {3x3}
     """
-    seq = unknown_pose_shape_to_known_shape(seq)
     mu = np.expand_dims(np.expand_dims(np.squeeze(mu), axis=0), axis=0)
     R_T = np.transpose(R)
     seq = apply_rotation_to_seq(seq, R_T)
